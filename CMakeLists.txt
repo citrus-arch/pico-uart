@@ -9,7 +9,14 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 add_executable(pico_uart
-    main.c
+    src/main.c
+    src/shell.c
+    src/commands.c
+    src/led.c
+    src/dht11.c
+)
+target_include_directories(pico_uart PRIVATE
+    include
 )
 
 target_link_libraries(pico_uart
