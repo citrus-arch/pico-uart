@@ -13,7 +13,7 @@ add_executable(pico_uart
     src/shell.c
     src/commands.c
     src/led.c
-    src/dht11.c
+    src/dht.c
 )
 target_include_directories(pico_uart PRIVATE
     include

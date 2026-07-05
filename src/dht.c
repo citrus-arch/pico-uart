@@ -31,8 +31,12 @@ bool dht11_read(dht_reading *reading)
     uint j = 0; //bit counter (0 to 39)
 
     gpio_set_dir(dht_pin, GPIO_OUT);
-    gpio_put(dht_pin, 0); //holding the pin down -> awaken sensor
-    sleep_ms(20);
+    gpio_put(dht_pin, 0);
+    sleep_ms(18);
+
+    gpio_put(dht_pin, 1);
+    sleep_us(40);
+
     gpio_set_dir(dht_pin, GPIO_IN);
 
     for (uint i=0; i<MAX_TIMINGS; i++)
@@ -51,7 +55,7 @@ bool dht11_read(dht_reading *reading)
         if ((i >= 4) && (i % 2 == 0)) //4 is the ack/handshake part (skip it) and each bit = 2edges so i%2==0 picks only high pulses where count tells 0 or 1
         {
             data[j/8] <<= 1; //left shift and put 1 in LSB. j/8 = byte. {{* shift byte left, LSB becomes 0*}}
-            if (count > 16) data[j / 8] |= 1; // if long HIGH, set LSB to 1
+            if (count > 46) data[j / 8] |= 1; // if long HIGH, set LSB to 1
             j++; //building each byte bit by bit, MSB first
         }
     }
